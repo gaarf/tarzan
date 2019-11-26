@@ -6,7 +6,6 @@ import Layout from "./components/Layout";
 
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import "@blueprintjs/table/lib/css/table.css";
 
 const App: React.FC = () => {
   const [currentTheme] = useGlobalStore(s => s.prefs.theme);

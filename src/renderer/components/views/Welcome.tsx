@@ -4,8 +4,11 @@ import { useStyles } from "../../plumbing";
 import { Button, ButtonGroup } from "@blueprintjs/core";
 
 const Welcome: React.FC = () => {
-  const [styles, cx] = useStyles(({ unit }) => ({
+  const [styles, cx] = useStyles(({ unit, mixin }) => ({
     container: {
+      ...mixin.newLayer,
+      ...mixin.vertical,
+      ...mixin.centerCenter,
       padding: unit,
       overflow: "auto"
     }
@@ -21,10 +24,10 @@ const Welcome: React.FC = () => {
 
   return (
     <div className={cx(styles.container)}>
-      <h2 className="bp3-heading">Welcome!</h2>
+      <h3 className="bp3-heading">Welcome to the Jungle!</h3>
 
       <ButtonGroup>
-        <Button onClick={handleNewModel}>New Model</Button>
+        <Button onClick={handleNewModel}>New Tree</Button>
         <Button onClick={handleOpenModel}>Open JSON</Button>
       </ButtonGroup>
     </div>
