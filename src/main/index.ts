@@ -12,7 +12,7 @@ let mainWindow: BrowserWindow | null;
 function createMainWindow() {
   const window = new BrowserWindow({
     webPreferences: { nodeIntegration: true },
-    title: "Milo",
+    title: "Tarzan",
     resizable: true,
     height: 500,
     width: 600

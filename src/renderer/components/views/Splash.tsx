@@ -14,7 +14,7 @@ const Splash: React.FC = () => {
 
   const [, dispatch] = useGlobalStore();
   const [, error] = usePromise(
-    () => delay(1000),
+    () => delay(666),
     () => dispatch("GOTO_VIEW", VIEW.WELCOME),
   );
 
@@ -22,7 +22,7 @@ const Splash: React.FC = () => {
     <div className={cx(styles.welcome)}>
       {error ? <Callout>{error.message}</Callout> : (
         <>
-          <h1 className="bp3-heading">Milo</h1>
+          <h1 className="bp3-heading">Tarzan</h1>
           <ProgressBar />
         </>
       )}

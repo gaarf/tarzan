@@ -1,7 +1,6 @@
 import React from "react";
-import { ipcRenderer } from "electron";
-import { useStyles } from "../../plumbing";
-import { Button, ButtonGroup } from "@blueprintjs/core";
+import { useStyles, useGlobalStore, VIEW } from "../../plumbing";
+import { Button } from "@blueprintjs/core";
 
 const Welcome: React.FC = () => {
   const [styles, cx] = useStyles(({ unit }) => ({
@@ -11,22 +10,17 @@ const Welcome: React.FC = () => {
     }
   }));
 
-  const handleNewModel = () => {
-    ipcRenderer.send("model-new");
-  };
+  const [, dispatch] = useGlobalStore();
 
-  const handleOpenModel = () => {
-    ipcRenderer.send("model-load");
+  const handleWindowing = () => {
+    dispatch("GOTO_VIEW", VIEW.WINDOWING);
   };
 
   return (
     <div className={cx(styles.container)}>
       <h2 className="bp3-heading">Welcome!</h2>
 
-      <ButtonGroup>
-        <Button onClick={handleNewModel}>New Model</Button>
-        <Button onClick={handleOpenModel}>Open YAML</Button>
-      </ButtonGroup>
+      <Button onClick={handleWindowing}>GOTO Windowing</Button>
     </div>
   );
 };

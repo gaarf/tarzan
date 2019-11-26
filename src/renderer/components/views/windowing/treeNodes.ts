@@ -14,7 +14,7 @@ export type TreeNode = ITreeNode<{
 }>;
 
 export enum NodeId {
-  ROOT = 'root',
+  ROOT = "root"
 }
 
 let i = Object.values(NodeId).length;
@@ -31,9 +31,10 @@ const nodes: Array<TreeNode> = [
         icon: "code",
         label: "Dump",
         nodeData: {
+          tabId: "dump",
           Component: DumpSheet
         }
-      },
+      }
     ]
   },
   {

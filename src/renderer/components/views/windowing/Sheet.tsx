@@ -13,10 +13,9 @@ const Sheet: React.FC<Props> = ({ name }) => {
   const [, treeManager] = useTreeManager();
 
   useEffect(() => {
-    const node = treeManager.nodesByTabId[
-      name === "above" ? "equations" : "variables"
-    ];
-    tabManager.addTab(nodeToTab(node), name);
+    if (name === "above") {
+      tabManager.addTab(nodeToTab(treeManager.nodesByTabId.dump), name);
+    }
   }, []);
 
   const [styles, cx] = useStyles(({ mixin, unit, bg, gray, border }) => ({
