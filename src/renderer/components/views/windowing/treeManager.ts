@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import path from "path";
-import { Button, ContextMenu } from "@blueprintjs/core";
+import { ContextMenu } from "@blueprintjs/core";
 import tabManager, { Tab } from "./tabManager";
-import nodes, { TreeNode, NodeId } from "./treeNodes";
-import { useGlobalStore, dispatch } from "../../../plumbing";
-import { IMiloModel } from "../../../../main/types";
+import nodes, { TreeNode } from "./treeNodes";
 import TreeContext from "./TreeContext";
-import { SpreadSheet } from "../../sheets";
 
 type SetterCallback = (items: TreeNode[]) => void;
 type NodesById = { [k: string]: TreeNode };
@@ -110,93 +106,9 @@ export function nodeToTab(node: TreeNode): Tab {
   };
 }
 
-function mkModelUpdater(model: IMiloModel) {
-  const { data, system } = model;
-
-  return function(node: TreeNode) {
-    const { isExpanded } = node;
-    let out: TreeNode;
-
-    switch (node.id) {
-      case NodeId.VARIABLES:
-        {
-          const keys = Object.keys(system.variable);
-          out = {
-            ...node,
-            childNodes:
-              keys.length === 0
-                ? undefined
-                : keys.map(
-                    (one): TreeNode => ({
-                      id: `variable#${one}`,
-                      label: one,
-                      secondaryLabel: React.createElement(Button, {
-                        small: true,
-                        icon: "remove",
-                        onClick: (event: React.MouseEvent) => {
-                          event.stopPropagation();
-                          const { [one]: _, ...variable } = system.variable;
-                          dispatch("EDIT_SYSTEM", { variable });
-                        }
-                      })
-                    })
-                  )
-          };
-        }
-        break;
-
-      case NodeId.DATA:
-        out = {
-          ...node,
-          childNodes:
-            data.length === 0
-              ? undefined
-              : data.map(
-                  (one, index): TreeNode => {
-                    const id = `${NodeId.DATA}#${index}`;
-                    return {
-                      id,
-                      icon: "document",
-                      label: path.basename(one.path) || "[pathless]",
-                      nodeData: {
-                        tabId: `${id}#${Date.now()}`,
-                        Component: SpreadSheet,
-                        props: { index }
-                      },
-                      secondaryLabel: React.createElement(Button, {
-                        small: true,
-                        icon: "remove",
-                        onClick: (event: React.MouseEvent) => {
-                          event.stopPropagation();
-                          tabManager.removeTabs(new RegExp(`^${NodeId.DATA}#\\d+$`));
-                          dispatch("REMOVE_DATA", one);
-                        }
-                      })
-                    };
-                  }
-                )
-        };
-        break;
-
-      default:
-        return node;
-    }
-
-    if (out.childNodes ? !isExpanded : isExpanded) {
-      treeManager.handleNodeToggle(out);
-    }
-
-    return out;
-  };
-}
 
 export function useTreeManager(): [TreeNode[], TreeManager] {
   const [items, setItems] = useState<TreeNode[]>(treeManager.items);
-  const [model] = useGlobalStore(state => state.model!);
-
-  useEffect(() => {
-    treeManager.update(mkModelUpdater(model));
-  }, [model]);
 
   useEffect(() => {
     treeManager.register(setItems);

@@ -4,11 +4,11 @@ import { Pre } from "@blueprintjs/core";
 import Flex from "../util/Flex";
 
 const Dump: React.FC = () => {
-  const [model] = useGlobalStore(state => state.model!);
+  const [state] = useGlobalStore(state => state);
  
   return (
     <Flex padded>
-      <Pre>{JSON.stringify(model, null, 2)}</Pre>
+      <Pre>{JSON.stringify(state, null, 2)}</Pre>
     </Flex>
 
   );

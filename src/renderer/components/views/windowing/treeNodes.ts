@@ -1,10 +1,9 @@
 import React from "react";
-import { ITreeNode, Button } from "@blueprintjs/core";
+import { ITreeNode } from "@blueprintjs/core";
 import { TabId } from "./tabManager";
 import Lipsum from "../../util/Lipsum";
 import Clock from "../../util/Clock";
 import { SettingSheet, DumpSheet } from "../../sheets";
-import { ipcRenderer } from "electron";
 
 export type TreeNode = ITreeNode<{
   tabId?: TabId;
@@ -25,7 +24,7 @@ const nodes: Array<TreeNode> = [
     id: NodeId.ROOT,
     icon: "slash",
     isExpanded: true,
-    label: "Model",
+    label: "Root",
     childNodes: [
       {
         id: i++,
