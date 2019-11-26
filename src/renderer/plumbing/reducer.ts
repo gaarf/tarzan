@@ -1,3 +1,4 @@
+import { TarzanTaxonomy } from "../../main/types";
 import { ActionType, State, VIEW } from "./constants";
 
 export type Action = {
@@ -21,12 +22,17 @@ export default function reducer(
         }
       };
 
+    case "SET_MODEL":
+      return {
+        ...state,
+        model: payload as TarzanTaxonomy,
+      };
+  
     case "GOTO_VIEW":
       return {
         ...state,
         view: payload as VIEW
       };
-
   }
   return state;
 }

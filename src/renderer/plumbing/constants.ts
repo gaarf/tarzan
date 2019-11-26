@@ -1,13 +1,14 @@
-import { Preferences } from "../../main/types";
+import { Preferences, TarzanTaxonomy } from "../../main/types";
 
 export type ActionType =
   | "GOTO_VIEW"
+  | "SET_MODEL"
   | "SET_PREFS";
 
 export enum VIEW {
   SPLASH,
   WELCOME,
-  WINDOWING
+  EDITOR
 }
 
 export enum THEME {
@@ -17,5 +18,6 @@ export enum THEME {
 
 export interface State {
   prefs: Partial<Preferences> & { theme: THEME };
+  model?: TarzanTaxonomy;
   view: VIEW;
 }

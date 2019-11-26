@@ -1,13 +1,13 @@
 import React from "react";
 import { useStyles, useGlobalStore, VIEW } from "../plumbing";
-import { Splash, Welcome, Windowing } from "./views";
+import { Splash, Welcome, Editor } from "./views";
 
 const Views: React.FC = () => {
   const [view] = useGlobalStore(state => state.view);
 
   switch (view) {
-    case VIEW.WINDOWING:
-      return <Windowing />;
+    case VIEW.EDITOR:
+      return <Editor />;
     case VIEW.WELCOME:
       return <Welcome />;
     default:

@@ -3,7 +3,6 @@ import { is, appMenu, debugInfo } from "electron-util";
 import { ipcMain } from "electron";
 import { prefs } from "./preferences";
 import { State, THEME, VIEW } from "../renderer/plumbing/constants";
-import { rendererToast } from "./utils";
 const { DARK, LIGHT } = THEME;
 
 const prefsItem = [
@@ -24,14 +23,14 @@ const template = [
         enabled: false,
         label: "Open…",
         accelerator: "Command+O",
-        click: () => rendererToast("FIXME")
+        click: () => ipcMain.emit('model-load')
       },
       {
         id: 'save',
         enabled: false,
         label: "Save…",
         accelerator: "Command+S",
-        click: () => rendererToast("FIXME")
+        click: () => ipcMain.emit('model-save')
       },
       ...(is.macos ? [] : [{ type: "separator" }, { role: "quit" }])
     ]
@@ -85,5 +84,5 @@ const itemByID = ['theme','open','save'].reduce<{
 ipcMain.on("state-update", (e, state:State) => {
   itemByID.theme.checked = state.prefs.theme === DARK;
   itemByID.open.enabled = state.view !== VIEW.SPLASH;
-  itemByID.save.enabled = state.view === VIEW.WINDOWING;
+  itemByID.save.enabled = state.view === VIEW.EDITOR;
 });
