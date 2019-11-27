@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const [currentTheme] = useGlobalStore(s => s.prefs.theme);
   useEffect(() => {
     ipcRenderer.send("app-init");
-    window.addEventListener('unload', () => ipcRenderer.send("app-unload"))
+    window.addEventListener('unload', () => ipcRenderer.send("app-unload"));
   }, []);
 
   return (

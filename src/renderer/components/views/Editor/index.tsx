@@ -1,8 +1,12 @@
 import React from "react";
+import Split from "react-split";
 import { useStyles } from "../../../plumbing";
+import Content from './Content';
+import Tree from './Tree';
+import Status from './Status';
 
 const Editor: React.FC = () => {
-  const [styles, cx] = useStyles(({ mixin, border }) => {
+  const [styles, cx] = useStyles(({ mixin, border, gray }) => {
 
     return {
       container: {
@@ -12,12 +16,19 @@ const Editor: React.FC = () => {
       },
       horizontal: {
         ...mixin.horizontal,
+        "@selectors": {
+          "> .gutter": {
+            boxSizing: 'content-box',
+            borderRight: border,
+            borderLeft: border,
+            backgroundColor: gray,
+            cursor: "col-resize",
+          }
+        }
       },
       nav: {
         ...mixin.layerParent,
-        ...mixin.someChildWillScroll,
         ...mixin.scroll,
-        borderRight: border
       },
       footer: {
         borderTop: border
@@ -27,18 +38,21 @@ const Editor: React.FC = () => {
 
   return (
     <div className={cx(styles.container)}>
-      <div
+      <Split
+        sizes={[25, 75]}
+        gutterSize={1}
+        direction="horizontal"
         className={cx(styles.container, styles.horizontal)}
       >
         <nav className={cx(styles.nav)}>
-          nav
+          <Tree />
         </nav>
         <main className={cx(styles.container)}>
-          main
+          <Content />
         </main>
-      </div>
+      </Split>
       <footer className={cx(styles.footer)}>
-        footer
+        <Status />
       </footer>
     </div>
   );

@@ -19,8 +19,6 @@ const initModel = () => {
   rendererDispatch("SET_MODEL", currentModel);
 };
 
-ipcMain.on("app-init", initModel);
-
 ipcMain.on("model-new", () => {
   initModel();
   rendererDispatch("GOTO_VIEW", VIEW.EDITOR);
