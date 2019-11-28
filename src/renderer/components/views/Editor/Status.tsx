@@ -1,8 +1,15 @@
 import React from "react";
-import { useStyles } from "../../../plumbing";
+import { useStyles, useGlobalStore } from "../../../plumbing";
+import { TreeSelection } from "./treeManager";
 
-const Status: React.FC = () => {
-  const [styles, cx] = useStyles(({ mixin, unit, gray }) => {
+type StatusProps = {
+  selected?: TreeSelection;
+};
+
+const SEPARATOR = ' > ';
+
+const Status: React.FC<StatusProps> = ({selected}) => {
+  const [styles, cx] = useStyles(({ unit, gray }) => {
 
     return {
       container: {
@@ -12,9 +19,18 @@ const Status: React.FC = () => {
     };
   });
 
+  const [model] = useGlobalStore(state => state.model!);
+  let { items } = model;
+  const display = selected && selected.path.reduce<string[]>((memo, child) => {
+    const item = items[child];
+    items = item.items || [];
+    return [...memo, item.label];
+  }, []);
+
+
   return (
     <div className={cx(styles.container)}>
-      Hello
+      {display ? display.join(SEPARATOR) : SEPARATOR}
     </div>
   );
 };

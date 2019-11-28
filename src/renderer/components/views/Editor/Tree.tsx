@@ -4,17 +4,17 @@ import {
   TreeEventHandler as BlueprintTreeEventHandler
 } from "@blueprintjs/core";
 import { useStyles, useGlobalStore } from "../../../plumbing";
-import { useTreeManager, tarzanNodeFromTreePath } from "./treeManager";
+import { useTreeManager, tarzanNodeFromTreePath, TreeSelection } from "./treeManager";
 import { TarzanNode } from "../../../../main/types";
 
-type TarzanTreeEventHandler = (node: TarzanNode, path: number[]) => void;
+type TreeEventHandler = (node: TarzanNode, path: number[]) => void;
 type TreeProps = {
-  onNodeClick?: TarzanTreeEventHandler;
-  onNodeContextMenu?: TarzanTreeEventHandler;
-  selectedNode?: TarzanNode;
+  onNodeClick?: TreeEventHandler;
+  onNodeContextMenu?: TreeEventHandler;
+  selected?: TreeSelection;
 };
 
-const Tree: React.FC<TreeProps> = ({ onNodeClick, onNodeContextMenu, selectedNode }) => {
+const Tree: React.FC<TreeProps> = ({ onNodeClick, onNodeContextMenu, selected }) => {
   const [styles, cx] = useStyles(({ unit }) => {
     return {
       container: {
@@ -24,17 +24,14 @@ const Tree: React.FC<TreeProps> = ({ onNodeClick, onNodeContextMenu, selectedNod
     };
   });
 
-  const [items, treeManager, init] = useTreeManager(selectedNode);
+  const [items, treeManager, init] = useTreeManager(selected && selected.node);
   useEffect(init, []);
 
   const [model] = useGlobalStore(state => state.model);
 
-  function mkHandler(fn?: TarzanTreeEventHandler): BlueprintTreeEventHandler {
+  function mkHandler(fn?: TreeEventHandler): BlueprintTreeEventHandler {
     return (_, path) => {
-      if (model) {
-        const node = tarzanNodeFromTreePath(model, path);
-        fn && fn(node, path);
-      }
+      if (model) { fn && fn(tarzanNodeFromTreePath(model, path), path); }
     };
   }
   const handleNodeClick = mkHandler(onNodeClick);

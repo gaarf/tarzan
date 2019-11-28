@@ -4,7 +4,7 @@ import { useStyles } from "../../../plumbing";
 import Content from "./Content";
 import Tree from "./Tree";
 import Status from "./Status";
-import { TarzanNode } from "../../../../main/types";
+import { TreeSelection } from "./treeManager";
 
 const Editor: React.FC = () => {
   const [styles, cx] = useStyles(({ mixin, border, gray }) => {
@@ -36,7 +36,7 @@ const Editor: React.FC = () => {
     };
   });
 
-  const [selectedNode, setSelectedNode] = useState<TarzanNode>();
+  const [selected, setSelected] = useState<TreeSelection>();
 
   return (
     <div className={cx(styles.container)}>
@@ -47,14 +47,17 @@ const Editor: React.FC = () => {
         className={cx(styles.container, styles.horizontal)}
       >
         <nav className={cx(styles.nav)}>
-          <Tree onNodeClick={setSelectedNode} selectedNode={selectedNode} />
+          <Tree
+            onNodeClick={(node, path) => setSelected({ node, path })}
+            selected={selected}
+          />
         </nav>
         <main className={cx(styles.container)}>
-          <Content selectedNode={selectedNode} />
+          <Content selected={selected} />
         </main>
       </Split>
       <footer className={cx(styles.footer)}>
-        <Status selectedNode={selectedNode} />
+        <Status selected={selected} />
       </footer>
     </div>
   );

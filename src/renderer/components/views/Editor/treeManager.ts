@@ -5,6 +5,11 @@ import { TarzanTaxonomy, TarzanNode } from "../../../../main/types";
 
 type SetterCallback = (items: ITreeNode[]) => void;
 
+export type TreeSelection = {
+  node: TarzanNode;
+  path: number[];
+};
+
 export class TreeManager {
   private callbacks: Array<SetterCallback> = [];
   public items: ITreeNode[] = [];
@@ -31,7 +36,7 @@ export class TreeManager {
   }
 
   public parse(model: TarzanTaxonomy, silent?: boolean) {
-    console.log("parse");
+    console.log("parse", model);
 
     let id = 0;
     function convert(n: TarzanNode): ITreeNode {
@@ -51,7 +56,7 @@ export class TreeManager {
   }
 
   public update(model: TarzanTaxonomy, selectedNode?: TarzanNode) {
-    console.log("update");
+    console.log("update", this);
 
     const expandedIds: Array<string|number> = [];
     this.walk(n => n.isExpanded && expandedIds.push(n.id));
