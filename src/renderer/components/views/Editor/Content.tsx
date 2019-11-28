@@ -1,29 +1,23 @@
 import React from "react";
-import { useStyles, useGlobalStore } from "../../../plumbing";
+import { useStyles } from "../../../plumbing";
 import { TreeSelection } from "./treeManager";
 
 type ContentProps = {
   selected?: TreeSelection;
 };
 
-const Content: React.FC<ContentProps> = ({ selected }) => {
-  const [model] = useGlobalStore(state => state.model!);
+const blank = { data: {}, items: [] };
 
+const Content: React.FC<ContentProps> = ({ selected }) => {
   const [styles, cx] = useStyles(({ mixin, unit }) => ({
     container: {
       padding: unit,
+      ...mixin.flex,
       ...mixin.scroll,
-      "@selectors": {
-        "> textarea" : {
-          resize: 'none',
-          height: '100%',
-          width: '100%'
-        }
-      }
     },
   }));
 
-  const {items, ...rest} = selected ? selected.node : model;
+  const {items, data, ...rest} = selected ? selected.node : blank;
 
   return (
     <div className={cx(styles.container)}>
