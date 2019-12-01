@@ -27,7 +27,7 @@ const Welcome: React.FC = () => {
       <h3 className="bp3-heading">Welcome to the Jungle!</h3>
 
       <ButtonGroup>
-        <Button onClick={handleNewModel}>New Tree</Button>
+        <Button disabled onClick={handleNewModel}>New Tree</Button>
         <Button onClick={handleOpenModel}>Open JSON</Button>
       </ButtonGroup>
     </div>
